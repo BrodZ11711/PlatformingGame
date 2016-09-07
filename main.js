@@ -44,6 +44,8 @@ var TILESET_SPACING = 2;
 var TILESET_COUNT_X = 14;
 var TILESET_COUNT_Y = 14;
 
+var score = 0;
+var lives = 3;
 // abitrary choice for 1m
 var METER = TILE;
  // very exaggerated gravity (6x)
@@ -179,6 +181,17 @@ function run() {
     context.fillStyle = "#f00";
     context.font = "14px Arial";
     context.fillText("FPS: " + fps, 5, 20, 100);
+
+    //Draw score
+    context.fillStyle = "#fa335e";
+    context.font = "23.01px Avenue Drift Regular";
+    varscoreText = "Score: " + score;
+    context.fillText(scoreText, SCREEN_WIDTH - 170, 35);
+
+    //Draw Hearts (Lives)
+    for (vari = 0; i < lives; i++) {
+        context.drawImage(heartImage, 20 + ((heartImage.width + 2) * i), 10);
+    }
 }
 //Build 2D array
 initialize();

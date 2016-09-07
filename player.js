@@ -25,7 +25,8 @@ var Player = function () {
     [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78]);
     for (var i = 0; i < ANIM_MAX; i++) {
         this.sprite.setAnimationOffset(i, -55, -87);
-    }
+    }
+
     //this.image = document.createElement("img");
     this.position = new Vector2();
     this.position.set(9 * TILE, 0 * TILE);
@@ -39,7 +40,9 @@ var Player = function () {
 
     //this.image.src = "hero.png";
 
-    this.velocity = new Vector2();    this.falling = true;
+    this.velocity = new Vector2();
+
+    this.falling = true;
     this.jumping = false;
 
     this.direction = LEFT;
@@ -50,7 +53,8 @@ Player.prototype.update = function (deltaTime) {
     this.sprite.update(deltaTime);
     var left = false;
     var right = false;
-    var jump = false;
+    var jump = false;
+
     //check keypress events
     if (keyboard.isKeyDown(keyboard.KEY_LEFT) == true) {
         left = true;
@@ -89,21 +93,24 @@ Player.prototype.update = function (deltaTime) {
         if (right == true) {
             this.sprite.setAnimation(ANIM_JUMP_RIGHT);
         }
-        if (jump && !this.jumping && !falling) {
-            // apply an instantaneous (large) vertical impulse
-            ddy = ddy - JUMP;
-            this.jumping = true;
-            if (this.direction == LEFT)
-                this.sprite.setAnimation(ANIM_JUMP_LEFT)
-            else
-                this.sprite.setAnimation(ANIM_JUMP_RIGHT)
-        }
-    }
+    }
+
     var wasleft = this.velocity.x < 0;
     var wasright = this.velocity.x > 0;
     var falling = this.falling;
     var ddx = 0;        // acceleration
-    var ddy = GRAVITY;    if (left)
+    var ddy = GRAVITY;
+    if (jump && !this.jumping && !falling) {
+        // apply an instantaneous (large) vertical impulse
+        ddy = ddy - JUMP;
+        this.jumping = true;
+        if (this.direction == LEFT)
+            this.sprite.setAnimation(ANIM_JUMP_LEFT)
+        else
+            this.sprite.setAnimation(ANIM_JUMP_RIGHT)
+    }
+
+    if (left)
         ddx = ddx - ACCEL; // player wants to go left
     else if (wasleft)
         ddx = ddx + FRICTION; // player was going left, but not any more
@@ -114,7 +121,9 @@ Player.prototype.update = function (deltaTime) {
     if (jump && !this.jumping && !falling) {
         ddy = ddy - JUMP; // apply an instantaneous (large) vertical impulse
         this.jumping = true;
-    }
+    }
+
+
     // calculate the new position and velocity:
     this.position.y = Math.floor(this.position.y + (deltaTime * this.velocity.y));
     this.position.x = Math.floor(this.position.x + (deltaTime * this.velocity.x));
@@ -126,7 +135,8 @@ Player.prototype.update = function (deltaTime) {
     (wasright && (this.velocity.x < 0))) {
         // clamp at zero to prevent friction from making us jiggle side to side
         this.velocity.x = 0;
-    }
+    }
+
 
     // collision detection
     // Our collision detection logic is greatly simplified by the fact that the player is a rectangle
@@ -180,7 +190,8 @@ Player.prototype.update = function (deltaTime) {
             this.position.x = tileToPixel(tx + 1);
             this.velocity.x = 0; // stop horizontal velocity
         }
-    }
+    }
+
 }
 
 Player.prototype.draw = function () {
