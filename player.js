@@ -71,16 +71,13 @@ Player.prototype.update = function (deltaTime) {
             this.sprite.setAnimation(ANIM_WALK_RIGHT);
     }
     else {
-        if(this.jumping == false && this.falling == false)
-        {
-            if(this.direction == LEFT)
-            {
-                if(this.sprite.currentAnimation != ANIM_IDLE_LEFT)
+        if (this.jumping == false && this.falling == false) {
+            if (this.direction == LEFT) {
+                if (this.sprite.currentAnimation != ANIM_IDLE_LEFT)
                     this.sprite.setAnimation(ANIM_IDLE_LEFT);
             }
-            else
-            {
-                if(this.sprite.currentAnimation != ANIM_IDLE_RIGHT)
+            else {
+                if (this.sprite.currentAnimation != ANIM_IDLE_RIGHT)
                     this.sprite.setAnimation(ANIM_IDLE_RIGHT);
             }
         }
@@ -191,11 +188,20 @@ Player.prototype.update = function (deltaTime) {
             this.velocity.x = 0; // stop horizontal velocity
         }
     }
-
+    if (cellAtTileCoord(LAYER_OBJECT_TRIGGERS, tx, ty) == true) {
+        console.log ("Game Over") // game over man, game over
+    }
+    if (cellAtTileCoord(LAYER_OBJECT_TRIGGERS, tx, ty) == true) {
+        // game over splash screen
+        gameState = STATE_GAMEOVER;
+        return;
+    }
 }
 
 Player.prototype.draw = function () {
-    this.sprite.draw(context, this.position.x, this.position.y);
+    this.sprite.draw(context,
+    this.position.x - worldOffsetX,
+    this.position.y);
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation);
